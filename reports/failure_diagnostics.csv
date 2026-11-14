@@ -1,0 +1,14 @@
+failure_diagnostic,hour,requests
+Reservation contention,7,1
+Reservation contention,8,26
+Reservation contention,9,61
+Reservation contention,10,10
+Reservation contention,11,1
+Reservation contention,15,2
+Reservation contention,16,7
+Reservation contention,17,43
+Reservation contention,18,12
+Reservation contention,19,54
+Reservation contention,20,9
+Shift window / duration,19,336
+Shift window / duration,20,1397

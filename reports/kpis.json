@@ -1,0 +1,24 @@
+{
+  "kpis": {
+    "requested": 60000,
+    "accepted": 54072,
+    "completed": 52198,
+    "cancelled": 7802,
+    "fulfillment": 0.8699666666666667,
+    "cancellation": 0.13003333333333333,
+    "revenue": 17211937.0,
+    "abv": 329.74322770987396,
+    "contribution_margin": 10058501.88,
+    "assignment_minutes": 2.8167628347388667
+  },
+  "row_counts": {
+    "customers": 12000,
+    "workers": 108,
+    "locations": 6,
+    "service_categories": 3,
+    "shifts": 31936,
+    "bookings": 60000,
+    "booking_costs": 60000,
+    "booking_status_events": 174072
+  }
+}

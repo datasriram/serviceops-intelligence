@@ -1,0 +1,14 @@
+PRAGMA foreign_keys=ON;
+CREATE TABLE locations(location_id INTEGER PRIMARY KEY,location TEXT NOT NULL UNIQUE);
+CREATE TABLE service_categories(service_id INTEGER PRIMARY KEY,service TEXT NOT NULL,base_price REAL NOT NULL,expected_minutes INTEGER NOT NULL);
+CREATE TABLE customers(customer_id INTEGER PRIMARY KEY,location_id INTEGER NOT NULL REFERENCES locations);
+CREATE TABLE workers(worker_id INTEGER PRIMARY KEY,location_id INTEGER NOT NULL REFERENCES locations,productivity REAL NOT NULL);
+CREATE TABLE shifts(shift_id INTEGER PRIMARY KEY,worker_id INTEGER NOT NULL REFERENCES workers,location_id INTEGER NOT NULL REFERENCES locations,start_at TEXT NOT NULL,end_at TEXT NOT NULL,CHECK(end_at>start_at));
+CREATE TABLE bookings(booking_id INTEGER PRIMARY KEY,customer_id INTEGER NOT NULL REFERENCES customers,service_id INTEGER NOT NULL REFERENCES service_categories,location_id INTEGER NOT NULL REFERENCES locations,worker_id INTEGER REFERENCES workers,shift_id INTEGER REFERENCES shifts,created_at TEXT NOT NULL,assigned_at TEXT,start_at TEXT,completed_at TEXT,cancelled_at TEXT,status TEXT NOT NULL CHECK(status IN ('completed','cancelled')),cancellation_reason TEXT,expected_minutes INTEGER NOT NULL,is_simulated INTEGER NOT NULL CHECK(is_simulated=1));
+CREATE TABLE booking_costs(booking_id INTEGER PRIMARY KEY REFERENCES bookings,quoted_value REAL NOT NULL,revenue REAL NOT NULL,worker_payout REAL NOT NULL,materials REAL NOT NULL,processing REAL NOT NULL);
+CREATE TABLE booking_status_events(event_id INTEGER PRIMARY KEY,booking_id INTEGER NOT NULL REFERENCES bookings,state TEXT NOT NULL CHECK(state IN ('requested','accepted','completed','cancelled')),event_at TEXT NOT NULL);
+CREATE INDEX idx_booking_created ON bookings(created_at);
+CREATE INDEX idx_booking_worker ON bookings(worker_id,start_at);
+CREATE INDEX idx_events_booking ON booking_status_events(booking_id,state);
+CREATE INDEX idx_shifts_time ON shifts(start_at,location_id);
+CREATE VIEW booking_fact AS SELECT b.*,l.location,s.service,c.quoted_value,c.revenue,c.worker_payout,c.materials,c.processing,c.revenue-c.worker_payout-c.materials-c.processing AS contribution_margin FROM bookings b INNER JOIN locations l USING(location_id) INNER JOIN service_categories s USING(service_id) INNER JOIN booking_costs c USING(booking_id);

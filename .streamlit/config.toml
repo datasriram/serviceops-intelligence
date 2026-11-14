@@ -1,0 +1,10 @@
+[global]
+developmentMode = false
+
+[theme]
+base = "light"
+primaryColor = "#345875"
+backgroundColor = "#ffffff"
+secondaryBackgroundColor = "#f4f5f6"
+textColor = "#292929"
+font = "sans serif"
