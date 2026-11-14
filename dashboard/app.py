@@ -7,6 +7,7 @@ import pandas as pd
 import plotly.express as px
 from src.analytics import ROOT,load_data,filter_data,kpis,summary,capacity,export_csv,location_performance
 from src.workforce import hourly_capacity,SCENARIOS
+from src.dashboard_setup import dashboard_root
 st.set_page_config(page_title='ServiceOps Intelligence',layout='wide')
 @st.cache_data
 def cached_load(signature):
@@ -29,8 +30,9 @@ def scenarios(signature):
         for c in ['start_at','end_at']:s[c]=pd.to_datetime(s[c])
         out[name]=(r,s)
     return out
+with st.spinner('Preparing the simulated dataset and staffing scenarios on first launch…'):
+    dashboard_root()
 p=ROOT/'reports/dispatch_diagnostics.csv';db=ROOT/'data/serviceops.db'
-if not db.exists():st.error('Run python -m src.build from the project root.');st.stop()
 signature=(db.stat().st_mtime_ns,p.stat().st_mtime_ns if p.exists() else 0)
 b,s=cached_load(signature)
 with st.sidebar:

@@ -70,3 +70,24 @@ Open [localhost:8501](http://127.0.0.1:8501). The source lives in `src/`, the qu
 ## Limitations
 
 Demand, travel, worker attendance and cancellations follow synthetic assumptions. The schedule comparisons depend on those assumptions and do not estimate real-world effects. The model excludes explicit breaks, cross-zone routing, guaranteed wages, refunds, taxes and overhead. Contribution therefore covers only the modeled attributable costs.
+
+## Deploy on Streamlit Community Cloud
+
+In Community Cloud, choose **Create app** and enter:
+
+- Repository: datasriram/serviceops-intelligence
+- Branch: main
+- Main file path: dashboard/app.py
+- Python: 3.12 in Advanced settings
+
+Community Cloud installs the root `requirements.txt` and reads
+`.streamlit/config.toml`. No secrets, environment variables, external database,
+or setup command are required.
+
+On the first launch from a clean checkout, the app runs the existing synthetic
+generator and staffing scenario calculations. It writes SQLite and supporting
+files locally and shows a progress message while they are prepared. Subsequent
+sessions and widget changes reuse those files. A fresh Cloud instance may need
+to generate them again. Allow the initial preparation to finish before
+checking the dashboard. The SQL and Excel report build remains a separate
+local workflow.
